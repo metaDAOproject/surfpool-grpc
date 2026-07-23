@@ -22,11 +22,11 @@
     "filter_names_cleanup_interval": "1s",
     "filter_limits": {
       "accounts": {
-        "max": 20,
+        "max": 10000,
         "any": true,
-        "account_max": 1000,
+        "account_max": 200000,
         "account_reject": [],
-        "owner_max": 1000,
+        "owner_max": 10000,
         "owner_reject": [],
         "data_slice_max": 10
       },
@@ -34,12 +34,12 @@
         "max": 20
       },
       "transactions": {
-        "max": 20,
+        "max": 10000,
         "any": true,
-        "account_include_max": 1000,
+        "account_include_max": 200000,
         "account_include_reject": [],
-        "account_exclude_max": 1000,
-        "account_required_max": 1000
+        "account_exclude_max": 200000,
+        "account_required_max": 200000
       },
       "transactions_status": {
         "max": 20,
