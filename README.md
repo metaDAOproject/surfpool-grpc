@@ -17,7 +17,7 @@ indexer can stream from a surfnet over gRPC on staging instead of RPC logs.
 
 `Dockerfile`:
 1. Stage 1 (`rust:bullseye`) builds `libyellowstone_grpc_geyser.so`.
-2. Stage 2 (`surfpool/surfpool:1.4.0`) copies the `.so` + `geyser-config.json`
+2. Stage 2 (`surfpool/surfpool:1.5.0`) copies the `.so` + `geyser-config.json`
    in, exposes gRPC `10000`, and starts surfpool with `-g`.
 
 `geyser-config.json`: plugin config. gRPC on `0.0.0.0:10000`, no `x_token`
@@ -28,8 +28,8 @@ broadly. Prometheus metrics on `8999`.
 
 | Component | Pin | Why |
 |-----------|-----|-----|
-| surfpool base image | `surfpool/surfpool:1.4.0` (Docker tags drop the `v`) | `agave-geyser-plugin-interface = "4.0"` |
-| yellowstone-grpc | `v13.3.1+solana.4.0.2` (`YELLOWSTONE_TAG` ARG) | pins `agave-geyser-plugin-interface = "=4.0.2"` — same 4.0.x ABI |
+| surfpool base image | `surfpool/surfpool:1.5.0` (Docker tags drop the `v`) | geyser plugin support |
+| yellowstone-grpc | `v14.1.1+solana.4.1.0` (`YELLOWSTONE_TAG` ARG) | the `4.0.2` plugin aborts (exit 133) encoding a live tx against 1.5.0; `4.1.0` handles the live-tx path |
 
 **Bumping:** move both together. If you bump surfpool to a base built against a
 new agave-geyser-plugin-interface major, pick the yellowstone tag pinning the

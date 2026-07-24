@@ -7,9 +7,12 @@
 # so the .so loads without a glibc mismatch.
 #
 # Pinned to the yellowstone-grpc release whose agave-geyser-plugin-interface
-# (=4.0.2) matches surfpool's "4.0" geyser ABI (unchanged through 1.5.0). Bump
-# YELLOWSTONE_TAG and the surfpool base tag together — a major-version drift
-# breaks plugin loading.
+# matches surfpool's geyser ABI. The 4.0.2 plugin loads and streams account
+# snapshots against surfpool 1.5.0, but ABORTS (exit 133, bogus alloc) when it
+# encodes a live transaction — verified against the futarchy integration tests.
+# The 4.1.0 plugin (v14.x) handles the live-tx path cleanly on the same base.
+# Bump YELLOWSTONE_TAG and the surfpool base tag together — a major-version
+# drift breaks plugin loading.
 # ---------------------------------------------------------------------------
 FROM rust:bullseye AS geyser
 
@@ -20,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       git \
     && rm -rf /var/lib/apt/lists/*
 
-ARG YELLOWSTONE_TAG=v13.3.1+solana.4.0.2
+ARG YELLOWSTONE_TAG=v14.1.1+solana.4.1.0
 
 WORKDIR /src
 RUN git clone --depth 1 --branch "${YELLOWSTONE_TAG}" \
