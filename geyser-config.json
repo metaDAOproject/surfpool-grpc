@@ -4,7 +4,11 @@
     "level": "info"
   },
   "grpc": {
-    "address": "0.0.0.0:10000",
+    "listen": [
+      {
+        "address": "0.0.0.0:10000"
+      }
+    ],
     "compression": {
       "accept": ["gzip", "zstd"],
       "send": ["gzip", "zstd"]

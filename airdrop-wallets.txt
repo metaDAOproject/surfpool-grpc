@@ -1,0 +1,4 @@
+# Pubkeys airdropped at container startup, one per line. `#` starts a comment.
+# Amount defaults to surfpool's 10000000000000 lamports (10,000 SOL) each;
+# override with AIRDROP_LAMPORTS. Add more at runtime with AIRDROP_PUBKEYS.
+3FCnzo6dcXaTz65tgW8nZt6fsjBK67yfcD1aDp5G23pH
