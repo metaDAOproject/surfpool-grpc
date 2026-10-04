@@ -1,0 +1,28 @@
+{
+	admin off
+	auto_https off
+}
+
+# Gate one surfpool port behind a secret path prefix: /<KEY>/...  {args[0]} = upstream.
+# Path prefix (not ?key=) so web3 fetch and the browser WebSocket both carry it.
+# Empty env authorizes nothing, so a missing secret fails closed.
+(gate) {
+	@ok expression `{env.SURFPOOL_ACCESS_KEY} != "" && {http.request.uri.path}.startsWith("/" + {env.SURFPOOL_ACCESS_KEY} + "/")`
+	handle @ok {
+		uri strip_prefix /{$SURFPOOL_ACCESS_KEY}
+		reverse_proxy {args[0]}
+	}
+	handle {
+		respond "access key required" 403
+	}
+}
+
+# rpc.nf.stg.metadao.fi -> JSON-RPC
+:8899 {
+	import gate surfpool:8899
+}
+
+# wsrpc.nf.stg.metadao.fi -> pubsub websocket (reverse_proxy carries the upgrade)
+:8900 {
+	import gate surfpool:8900
+}
